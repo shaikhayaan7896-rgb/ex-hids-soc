@@ -26,21 +26,28 @@ Conventional intrusion detection systems (IDS) operating with deep learning or e
 
 ## 🛠️ System Architecture
 
-The pipeline consists of a continuous feedback loop:
+EX-HIDS implements a dual-tier hybrid detection framework coupled with post-hoc local explainability:
 
-```text
-[ Live Network Traffic / Flow Telemetry ]
-                   │
-                   ▼
-       [ Real-time Feature Extractor ]
-       (syn_flag_ratio, dst_host_count, pkt_rate_1s, etc.)
-                   │
-                   ▼
-         [ XGBoost Classifier ]
-          /                 \
-         /                   \
-   [ Nominal Flow ]     [ Malicious Flow ]
-         │                     │
-      (Pass)                   ├─► Automated Firewall Rule (Drop Socket)
-                               ├─► TreeSHAP Attribution Engine (Per-feature impact)
-                               └─► WebSocket Broadcast to SOC Dashboard
+       [ Raw Network Packets / Live Traffic Stream ]
+                             │
+                             ▼
+                 [ Packet Capture & Filter ]
+                             │
+            ┌────────────────┴────────────────┐
+            ▼                                 ▼
+   [ Signature / Rule Engine ]     [ Statistical Feature Extractor ]
+   (Known CVEs / SNORT rules)     (syn_flag_ratio, dst_host_count, pkt_rate)
+            │                                 │
+   (Match)  │                                 ▼
+            │                      [ XGBoost Classifier ]
+            │                       (Anomaly Detection)
+            │                                 │
+            ├─────────────────────────────────┘
+            ▼
+     [ Decision Gate ]
+       /           \
+[ Normal Flow ]   [ Threat Detected ]
+      │                     │
+   (Pass)                   ├─► [ Automated Firewall / IPTables ] (Drop Socket)
+                            ├─► [ TreeSHAP Attribution Engine ] (Feature Weights)
+                            └─► [ WebSocket / SOC Dashboard ] (Live Telemetry Alert)
