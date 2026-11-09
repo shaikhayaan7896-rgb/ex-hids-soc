@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+/* Base SOC Theme Variables */
+:root {
+    --bg-primary: #070a12;
+    --card-surface: rgba(15, 23, 42, 0.75);
+    --border-color: rgba(56, 189, 248, 0.15);
+    --accent-cyan: #38bdf8;
+    --danger-red: #ef4444;
+    --warning-yellow: #f59e0b;
+    --safe-emerald: #10b981;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--bg-primary);
+    /* Cyber Grid Matrix Background */
+    background-image: 
+        linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+}
+
+/* Glassmorphism Surface Cards */
+.bg-socSurface {
+    background: var(--card-surface) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bg-socSurface:hover {
+    border-color: rgba(56, 189, 248, 0.35) !important;
+}
+
+/* Neon Glow Effect when Attacks Trigger */
+.glow-red {
+    border-color: rgba(239, 68, 68, 0.8) !important;
+    background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.25), transparent 70%), var(--card-surface) !important;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.35), inset 0 0 15px rgba(239, 68, 68, 0.15);
+    animation: pulse-danger 1.5s infinite alternate;
+}
+
+.glow-yellow {
+    border-color: rgba(245, 158, 11, 0.8) !important;
+    background: radial-gradient(circle at top left, rgba(245, 158, 11, 0.2), transparent 70%), var(--card-surface) !important;
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+}
+
+.glow-green {
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    background: radial-gradient(circle at top left, rgba(16, 185, 129, 0.15), transparent 70%), var(--card-surface) !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+@keyframes pulse-danger {
+    0% { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); }
+    100% { border-color: rgba(239, 68, 68, 0.9); box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
+}
+
+/* Smooth Gradient Progress Bars for TreeSHAP */
+.bg-dangerRed {
+    background: linear-gradient(90deg, #f87171, #ef4444) !important;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.bg-cyan-500 {
+    background: linear-gradient(90deg, #38bdf8, #06b6d4) !important;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+/* Terminal Log Formatting */
+#flowLogContainer {
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+#flowLogContainer div {
+    border-left: 2px solid transparent;
+    padding-left: 6px;
+    transition: all 0.2s;
+}
+
+#flowLogContainer div:hover {
+    background-color: rgba(56, 189, 248, 0.05);
+    border-left-color: var(--accent-cyan);
+}
+
+/* Sleek Cyber Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.3);
+    border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.6);
+}
+
+/* Button Micro-Interactions */
+button {
+    transition: all 0.15s ease-in-out !important;
+}
+
+button:hover {
+    box-shadow: 0 0 12px currentColor;
+    transform: translateY(-1px);
+}
