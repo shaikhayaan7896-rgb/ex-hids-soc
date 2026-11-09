@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EX-HIDS | Intrusion Detection System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans select-none antialiased">
+
+  <!-- ================= SCREEN 1: COVER / START PAGE ================= -->
+  <div id="start-screen" style="display: flex;" class="min-h-screen flex-col justify-center items-center p-6 relative overflow-hidden text-center">
+    
+    <!-- Cyber Background Visuals -->
+    <div class="absolute -top-24 -left-24 w-80 h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-2xl w-full z-10 space-y-8">
+      
+      <!-- Top Cyber Tag -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-indigo-400 text-xs font-mono">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        NODE: SECURE TELEMETRY ENGINE
+      </div>
+
+      <!-- Main Heading (PROJECT removed) -->
+      <div class="space-y-3">
+        <h1 class="text-5xl md:text-7xl font-black tracking-tight">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-rose-400">EX-HIDS</span>
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base font-medium max-w-lg mx-auto">
+          Explainable Hybrid Intrusion Detection System with Live TreeSHAP Attribution Architecture
+        </p>
+      </div>
+
+      <!-- Specs Pills -->
+      <div class="flex flex-wrap justify-center gap-2 text-[11px] font-mono text-slate-400">
+        <span class="px-3 py-1 rounded-md bg-slate-900/80 border border-slate-800">Model: XGBoost Classifier</span>
+        <span class="px-3 py-1 rounded-md bg-slate-900/80 border border-slate-800">Explainability: TreeSHAP</span>
+        <span class="px-3 py-1 rounded-md bg-slate-900/80 border border-slate-800">Latency: 1.8 ms</span>
+      </div>
+
+      <!-- START BUTTON -->
+      <div class="pt-4">
+        <button id="btn-start" type="button" class="cursor-pointer group relative inline-flex items-center gap-3 px-10 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-sky-600 hover:from-indigo-500 hover:to-sky-500 text-white font-bold text-base shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105 active:scale-95">
+          <svg class="w-5 h-5 text-sky-300" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+          </svg>
+          <span class="tracking-wide uppercase font-mono">Start</span>
+        </button>
+      </div>
+
+      <p class="text-[11px] text-slate-500 font-mono">
+        B.Tech Computer Science & Engineering Prototype // Version 1.0
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ================= SCREEN 2: LIVE SOC DASHBOARD ================= -->
+  <div id="dashboard-screen" style="display: none;" class="max-w-7xl mx-auto space-y-4 p-4 md:p-6">
+    
+    <!-- Dashboard Header -->
+    <header class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-wide">EX-HIDS Detection Engine</h1>
+          <p class="text-xs text-slate-400">Explainable Hybrid Intrusion Detection (TreeSHAP)</p>
+        </div>
+      </div>
+      
+      <!-- Right Side Controls (Attacks + Back Button) -->
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-slate-400 font-semibold mr-1">Inject Threat:</span>
+        <button id="btn-syn" type="button" class="cursor-pointer px-4 py-2 text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white rounded-lg shadow transition transform active:scale-95">
+          ⚠️ + SYN Flood
+        </button>
+        <button id="btn-scan" type="button" class="cursor-pointer px-4 py-2 text-xs font-bold bg-amber-600 hover:bg-amber-500 text-white rounded-lg shadow transition transform active:scale-95">
+          ⚠️ + Port Scan
+        </button>
+        <button id="btn-back" type="button" class="cursor-pointer px-3.5 py-2 text-xs font-mono font-bold text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 shadow transition transform active:scale-95">
+          ← Back
+        </button>
+      </div>
+    </header>
+
+    <!-- Top Metrics -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+        <p class="text-[11px] text-slate-400 font-semibold uppercase">Packets Inspected</p>
+        <h3 id="stat-packets" class="text-2xl font-bold font-mono text-white mt-1">0</h3>
+      </div>
+      <div class="bg-slate-900 border border-rose-500/30 p-3 rounded-xl">
+        <p class="text-[11px] text-rose-400 font-semibold uppercase">Threats Neutralized</p>
+        <h3 id="stat-threats" class="text-2xl font-bold font-mono text-rose-500 mt-1">0</h3>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+        <p class="text-[11px] text-slate-400 font-semibold uppercase">Latency</p>
+        <h3 class="text-2xl font-bold font-mono text-emerald-400 mt-1">1.8 ms</h3>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+        <p class="text-[11px] text-slate-400 font-semibold uppercase">XAI Framework</p>
+        <h3 class="text-2xl font-bold font-mono text-indigo-400 mt-1">TreeSHAP</h3>
+      </div>
+    </section>
+
+    <!-- Grid: Logs & SHAP -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Traffic Logs -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col h-[490px]">
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="text-sm font-semibold text-white">Live Ingestion Telemetry</h2>
+          <span class="text-[11px] text-slate-400">Threats remain pinned to top</span>
+        </div>
+        <div class="overflow-y-auto flex-1 border border-slate-800 rounded-lg bg-slate-950/60">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 sticky top-0 text-slate-400 border-b border-slate-800 font-mono">
+              <tr>
+                <th class="p-2.5">Time</th>
+                <th class="p-2.5">Packet Flow</th>
+                <th class="p-2.5">Verdict</th>
+                <th class="p-2.5 text-right">Inspect</th>
+              </tr>
+            </thead>
+            <tbody id="threat-tbody" class="divide-y divide-rose-900/60 font-mono text-[11px]"></tbody>
+            <tbody id="packet-tbody" class="divide-y divide-slate-800/60 font-mono text-[11px]"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TreeSHAP Attribution -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col h-[490px]">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h2 class="text-sm font-semibold text-white">SHAP Feature Attribution (XAI)</h2>
+            <p id="xai-subtitle" class="text-xs text-indigo-400 font-semibold mt-0.5">Monitoring Baseline Traffic</p>
+          </div>
+          <div class="flex gap-1.5">
+            <button onclick="updateShapUI('SYN')" class="cursor-pointer px-2 py-1 text-[10px] font-bold rounded bg-rose-900/60 text-rose-300 hover:bg-rose-800 border border-rose-700">SYN</button>
+            <button onclick="updateShapUI('SCAN')" class="cursor-pointer px-2 py-1 text-[10px] font-bold rounded bg-amber-900/60 text-amber-300 hover:bg-amber-800 border border-amber-700">SCAN</button>
+          </div>
+        </div>
+        
+        <div id="shap-container" class="space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-800 flex-1 overflow-y-auto">
+          <div>
+            <div class="flex justify-between text-xs mb-1 font-mono">
+              <span class="text-slate-300">packet_length</span>
+              <span class="text-rose-400">+4%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-3">
+              <div class="bg-rose-500 h-3 rounded-full" style="width: 15%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1 font-mono">
+              <span class="text-slate-300">header_bytes</span>
+              <span class="text-emerald-400">-6%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-3">
+              <div class="bg-emerald-500 h-3 rounded-full" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 p-3.5 bg-slate-950 border border-slate-800 rounded-lg">
+          <p class="text-xs font-bold text-slate-300">Model Narrative:</p>
+          <p id="xai-explanation" class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Baseline nominal traffic. Click any attack button or the red "Inspect SHAP" button to see real-time feature impact.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    var totalPackets = 0;
+    var totalThreats = 0;
+    var packetInterval = null;
+
+    var startScreen = document.getElementById('start-screen');
+    var dashboardScreen = document.getElementById('dashboard-screen');
+    var btnStart = document.getElementById('btn-start');
+    var btnBack = document.getElementById('btn-back');
+
+    btnStart.onclick = function() {
+      startScreen.style.display = 'none';
+      dashboardScreen.style.display = 'block';
+      if (!packetInterval) {
+        packetInterval = setInterval(addNormalPacket, 2000);
+      }
+    };
+
+    btnBack.onclick = function() {
+      dashboardScreen.style.display = 'none';
+      startScreen.style.display = 'flex';
+    };
+
+    var ATTACK_DATABASE = {
+      SYN: {
+        title: "CRITICAL: High-Volume SYN Flood Detected",
+        desc: "TreeSHAP confirms syn_flag_ratio contributed +68% toward anomalous conviction with 0-byte TCP handshakes on Port 80.",
+        features: [
+          { name: "syn_flag_ratio", val: "+68%", width: "85%", color: "bg-rose-500", text: "text-rose-400" },
+          { name: "dst_host_count", val: "+34%", width: "45%", color: "bg-rose-500", text: "text-rose-400" },
+          { name: "pkt_rate_1s", val: "+22%", width: "30%", color: "bg-rose-500", text: "text-rose-400" },
+          { name: "payload_bytes", val: "-8%", width: "12%", color: "bg-emerald-500", text: "text-emerald-400" }
+        ]
+      },
+      SCAN: {
+        title: "HIGH: Horizontal Port Sweep Reconnaissance",
+        desc: "High velocity reconnaissance scan across sequential sockets. Disparate port access and high connection rejection ratio caused the conviction.",
+        features: [
+          { name: "unique_dst_ports", val: "+54%", width: "70%", color: "bg-amber-500", text: "text-amber-400" },
+          { name: "diff_srv_rate", val: "+38%", width: "50%", color: "bg-amber-500", text: "text-amber-400" },
+          { name: "conn_REJ_ratio", val: "+26%", width: "35%", color: "bg-rose-500", text: "text-rose-400" },
+          { name: "same_srv_rate", val: "-18%", width: "25%", color: "bg-emerald-500", text: "text-emerald-400" }
+        ]
+      }
+    };
+
+    function updateShapUI(attackKey) {
+      var item = ATTACK_DATABASE[attackKey];
+      if (!item) return;
+
+      document.getElementById('xai-subtitle').innerText = item.title;
+      document.getElementById('xai-explanation').innerText = item.desc;
+
+      var container = document.getElementById('shap-container');
+      container.innerHTML = "";
+
+      for (var i = 0; i < item.features.length; i++) {
+        var f = item.features[i];
+        var div = document.createElement('div');
+        div.innerHTML = 
+          '<div class="flex justify-between text-xs mb-1 font-mono">' +
+            '<span class="text-slate-200 font-semibold">' + f.name + '</span>' +
+            '<span class="' + f.text + ' font-bold">' + f.val + '</span>' +
+          '</div>' +
+          '<div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">' +
+            '<div class="' + f.color + ' h-3 rounded-full transition-all duration-300" style="width: ' + f.width + '"></div>' +
+          '</div>';
+        container.appendChild(div);
+      }
+    }
+
+    function addAttackRow(attackKey) {
+      totalThreats++;
+      document.getElementById('stat-threats').innerText = totalThreats;
+      totalPackets++;
+      document.getElementById('stat-packets').innerText = totalPackets;
+
+      var tbody = document.getElementById('threat-tbody');
+      var tr = document.createElement('tr');
+      var time = new Date().toTimeString().split(' ')[0];
+      var port = (attackKey === 'SYN') ? '80' : '445';
+
+      tr.className = 'bg-rose-950/70 border-b-2 border-rose-500 text-rose-200';
+      tr.innerHTML = 
+        '<td class="p-2.5 font-bold text-rose-300">' + time + '</td>' +
+        '<td class="p-2.5 font-semibold">192.168.1.55 → :' + port + '</td>' +
+        '<td class="p-2.5 font-bold text-rose-400">MALICIOUS (Blocked)</td>' +
+        '<td class="p-2.5 text-right">' +
+          '<button type="button" onclick="updateShapUI(\'' + attackKey + '\')" class="cursor-pointer px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded text-[10px] shadow">' +
+            'Inspect SHAP' +
+          '</button>' +
+        '</td>';
+
+      tbody.insertBefore(tr, tbody.firstChild);
+      updateShapUI(attackKey);
+    }
+
+    function addNormalPacket() {
+      totalPackets++;
+      document.getElementById('stat-packets').innerText = totalPackets;
+
+      var tbody = document.getElementById('packet-tbody');
+      var tr = document.createElement('tr');
+      var time = new Date().toTimeString().split(' ')[0];
+
+      tr.className = 'text-slate-400 hover:bg-slate-800/30';
+      tr.innerHTML = 
+        '<td class="p-2.5 text-slate-500">' + time + '</td>' +
+        '<td class="p-2.5">10.0.0.' + Math.floor(Math.random()*250+1) + ' → :443</td>' +
+        '<td class="p-2.5 text-emerald-400 font-medium">Normal</td>' +
+        '<td class="p-2.5 text-right text-slate-600">—</td>';
+
+      tbody.insertBefore(tr, tbody.firstChild);
+      if (tbody.children.length > 7) {
+        tbody.removeChild(tbody.lastChild);
+      }
+    }
+
+    window.onload = function() {
+      document.getElementById('btn-syn').onclick = function() { addAttackRow('SYN'); };
+      document.getElementById('btn-scan').onclick = function() { addAttackRow('SCAN'); };
+    };
+  </script>
+</body>
+</html>
