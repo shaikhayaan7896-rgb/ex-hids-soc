@@ -10,7 +10,7 @@
 
 ## 🚀 Live Demonstration
 The interactive SOC portal and attack simulation interface is deployed at:  
-👉 **[https://hilarious-snickerdoodle-60941e.netlify.app](https://hilarious-snickerdoodle-60941e.netlify.app)**
+👉 **[https://rococo-brigadeiros-352112.netlify.app](https://rococo-brigadeiros-352112.netlify.app)**
 
 ---
 
